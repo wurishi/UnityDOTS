@@ -1,0 +1,7 @@
+.vsconfig
+.vs/*
+Library/*
+Logs/*
+obj/*
+Packages/*
+Temp/*
