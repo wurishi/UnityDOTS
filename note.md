@@ -166,5 +166,60 @@ public class Baker : Baker<RotateComponentAuthoring>
 }
 ```
 
+# 5. System 与 SystemGroup 概述
 
+## 5.1 概述
+
+1. System 是用来将组件状态改变成另一种状态的。
+2. System 运行在主线程中，每帧执行一次。
+3. `SystemGroup` 用来组织 System，并决定 System.OnUpdate 的执行顺序。
+4. 可以继承 `SystemBase` 创建托管的 System 类，或者创建继承 `ISystem` 的结构体来创建非托管的 System。
+5. System 有三个方法，`OnUpdate / OnCreate / OnDestroy`。
+6. 默认情况下，启动时会创建对应的 System 和 SystemGroup 实例。
+7. 默认创建 3 个 SystemGroup:
+   - InitializationSystemGroup
+   - SimulationSystemGroup
+   - PresentationSystemGroup
+8. 默认情况下，自定义 System 实例会放到 SimulationSystemGroup 下，可以使用 `[UpdateInGroup]` 指定到其他 SystemGroup。
+9. 通过 `#UNITY_DISABLE_AUTOMATIC_SYSTEM_BOOTSTRAP` 禁用默认创建。
+
+## 5.2 编写一个 System
+
+```csharp
+using Unity.Entities;
+using UnityEngine;
+
+public partial class System05 : SystemBase
+{
+    protected override void OnUpdate()
+    {
+        Debug.Log("OnUpdate");
+    }
+
+    protected override void OnCreate()
+    {
+        base.OnCreate();
+        Debug.Log("OnCreate");
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        Debug.Log("OnDestroy");
+    }
+}
+
+```
+
+## 5.3 System 中获取 entity 的组件数据
+
+```csharp
+// SystemAPI.Query<T>
+// 只有同时包含 LocalTransform 和 RotateComponentData 的 Entity 会被查询到
+foreach (var (a, b) in SystemAPI.Query<RefRW<LocalTransform>, RefRO<RotateComponentData>>())
+{
+    Debug.Log(a.ValueRO.Position);
+    Debug.Log(b.ValueRO.rotateSpeed);
+}
+```
 

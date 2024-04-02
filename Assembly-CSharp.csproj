@@ -70,6 +70,7 @@
     <Analyzer Include="D:\Spaces\UnityDOTS\Library\PackageCache\com.unity.entities@1.0.16\Unity.Entities\SourceGenerators\Unity.Entities.Analyzer.CodeFixes.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Tur\05\System05.cs" />
     <Compile Include="Assets\Tur\01\Script01.cs" />
     <Compile Include="Assets\Tur\04\Authoring\RotateComponentAuthoring.cs" />
   </ItemGroup>
